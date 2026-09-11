@@ -1,1 +1,77 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Recargas Luchanas - Spin OXXO</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#6a1bff">
+<style>
+body{margin:0;background:#f5f5f5;font-family:Arial} 
+.header{background:#6a1bff;color:#fff;padding:16px;text-align:center;font-weight:900}
+.card{background:#fff;margin:12px;padding:14px;border-radius:14px;box-shadow:0 2px 8px #0001}
+.grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.op{border:2px solid #eee;border-radius:12px;padding:12px;text-align:center;font-weight:800;cursor:pointer}
+.op.act{border-color:#6a1bff;background:#f3e8ff}
+.monto{padding:10px 14px;border-radius:20px;border:1px solid #ddd;margin:4px;display:inline-block;cursor:pointer}
+.monto.act{background:#6a1bff;color:#fff}
+input{width:100%;padding:14px;border-radius:10px;border:1px solid #ccc;font-size:18px;box-sizing:border-box}
+.btn{width:100%;padding:16px;background:#0f9d58;color:#fff;border:0;border-radius:12px;font-size:18px;font-weight:900;margin-top:10px}
+</style>
+</head>
+<body>
+<div class="header">⚡ RECARGAS LUCHANAS - SPIN OXXO<br><small>Telcel | OXXO CEL | AT&T | BAIT | Movistar</small></div>
 
+<div class="card">
+<b>1. Elige compañía</b>
+<div class="grid" id="ops">
+<div class="op act" onclick="sel('Telcel',this)">Telcel</div>
+<div class="op" onclick="sel('OXXO CEL',this)">OXXO CEL</div>
+<div class="op" onclick="sel('AT&T',this)">AT&T</div>
+<div class="op" onclick="sel('BAIT',this)">BAIT</div>
+<div class="op" onclick="sel('Movistar',this)">Movistar</div>
+<div class="op" onclick="sel('Unefon',this)">Unefon</div>
+</div>
+</div>
+
+<div class="card">
+<b>2. Número a recargar</b>
+<input id="num" type="tel" placeholder="Ej: 8713329005" maxlength="10">
+</div>
+
+<div class="card">
+<b>3. Monto</b><br>
+<span class="monto" onclick="monto(20,this)">$20</span>
+<span class="monto" onclick="monto(30,this)">$30</span>
+<span class="monto" onclick="monto(50,this)">$50</span>
+<span class="monto act" onclick="monto(100,this)">$100</span>
+<span class="monto" onclick="monto(200,this)">$200</span>
+<span class="monto" onclick="monto(500,this)">$500</span>
+</div>
+
+<div class="card">
+<button class="btn" onclick="vender()">💬 Vender por WhatsApp + Pagar con Spin</button>
+<button class="btn" style="background:#6a1bff" onclick="linkSpin()">📲 Abrir Spin - Recargas y paquetes</button>
+<div style="font-size:12px;margin-top:8px;color:#666">Tú recibes el pago en tu Spin y luego recargas en la pantalla que me mandaste (Haz una nueva > Telcel). Ganancia: $2-5 por recarga.</div>
+<div id="res" style="margin-top:10px"></div>
+</div>
+
+<script>
+let comp='Telcel', mon=100;
+function sel(c,el){comp=c;document.querySelectorAll('.op').forEach(o=>o.classList.remove('act'));el.classList.add('act');}
+function monto(m,el){mon=m;document.querySelectorAll('.monto').forEach(o=>o.classList.remove('act'));el.classList.add('act');}
+function vender(){
+ let n=document.getElementById('num').value.trim();
+ if(n.length<10){alert('Pon número de 10 dígitos');return;}
+ let msg=`Hola! Quiero recarga ${comp} $${mon} al ${n} - Pago por Spin OXXO - Luchanas`;
+ let url=`https://wa.me/528721551986?text=${encodeURIComponent(msg)}`;
+ document.getElementById('res').innerHTML=`<a href="${url}" target="_blank" style="color:#0f9d58;font-weight:900">👉 Click aquí para mandar pedido por WhatsApp</a><br><br>Cuando te paguen por Spin, abre tu app Spin > Recargas y paquetes > ${comp} > pon ${n} > $${mon}`;
+ window.open(url,'_blank');
+}
+function linkSpin(){
+ alert('Se abre tu Spin. Tu ruta: Recargas y paquetes > Haz una nueva > elige compañía > pon número > paga con tu saldo Spin');
+ // Intento de abrir app Spin (Android)
+ window.location.href = 'spin://';
+}
+</script>
+</body>
+</html>
